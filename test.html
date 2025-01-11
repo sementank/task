@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Тест по основам веб-программирования</title>
+  <style>
+    /* Оформление контейнера с вопросами (две колонки) */
+    .questions-container {
+      display: flex;
+      flex-wrap: wrap;       /* Чтобы колонки продолжали на новой строке, если мало места */
+      gap: 20px;            /* Расстояние между колонками */
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .column {
+      flex: 1 1 45%;        /* Каждая колонка ~ 45% ширины */
+      min-width: 300px;     /* Минимальная ширина колонки */
+      box-sizing: border-box;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    /* Дополнительные стили для красоты */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .question-block {
+      margin-bottom: 15px;
+    }
+    .question-block p {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 20px;
+      color: #005500;
+    }
+    .btn-submit {
+      display: block;
+      margin: 0 auto;
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+<h1>Тест по основам веб-программирования</h1>
+
+<form id="webTestForm">
+  <div class="questions-container">
+    <!-- Первая колонка -->
+    <div class="column">
+      <!-- Вопрос 1 (radio) -->
+      <div class="question-block">
+        <p>1. Как расшифровывается аббревиатура HTML?</p>
+        <label>
+          <input type="radio" name="q1" value="1">
+          HyperText Markup Language
+        </label><br>
+        <label>
+          <input type="radio" name="q1" value="0">
+          Hyperlinks Text Management Language
+        </label><br>
+        <label>
+          <input type="radio" name="q1" value="0">
+          High-level Tools for Machine Learning
+        </label>
+      </div>
+
+      <!-- Вопрос 2 (checkbox) -->
+      <div class="question-block">
+        <p>2. Какие из перечисленных – корректные селекторы в CSS? (Можно выбрать несколько)</p>
+        <label>
+          <input type="checkbox" name="q2" value="class">
+          .class
+        </label><br>
+        <label>
+          <input type="checkbox" name="q2" value="id">
+          #id
+        </label><br>
+        <label>
+          <input type="checkbox" name="q2" value="header">
+          header
+        </label><br>
+        <label>
+          <input type="checkbox" name="q2" value="dollardiv">
+          $div
+        </label>
+      </div>
+
+      <!-- Вопрос 3 (select) -->
+      <div class="question-block">
+        <p>3. Какое свойство CSS отвечает за цвет текста?</p>
+        <select name="q3">
+          <option value="">-- Выберите ответ --</option>
+          <option value="0">background-color</option>
+          <option value="0">font-style</option>
+          <option value="1">color</option>
+          <option value="0">text-align</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Вторая колонка -->
+    <div class="column">
+      <!-- Вопрос 4 (text) -->
+      <div class="question-block">
+        <p>4. Какой тег используется для самой крупной заголовочной надписи в HTML?</p>
+        <label>
+          <input type="text" name="q4" placeholder="Например: &lt;h1&gt;" />
+        </label>
+      </div>
+
+      <!-- Вопрос 5 (textarea) -->
+      <div class="question-block">
+        <p>5. Напишите коротко, чем отличаются блочные и строчные элементы в HTML?</p>
+        <textarea name="q5" rows="4" cols="30" placeholder="Ваш ответ..."></textarea>
+      </div>
+
+      <!-- Вопрос 6 (radio) -->
+      <div class="question-block">
+        <p>6. Какой метод массива JavaScript добавляет элемент в конец массива?</p>
+        <label>
+          <input type="radio" name="q6" value="0">
+          shift()
+        </label><br>
+        <label>
+          <input type="radio" name="q6" value="1">
+          push()
+        </label><br>
+        <label>
+          <input type="radio" name="q6" value="0">
+          unshift()
+        </label><br>
+        <label>
+          <input type="radio" name="q6" value="0">
+          pop()
+        </label>
+      </div>
+    </div>
+    <!-- Конец двух колонок -->
+  </div>
+
+  <input class="btn-submit" type="button" value="Проверить тест" onclick="checkTest()">
+</form>
+
+<!-- Блок для отображения результатов -->
+<div id="result" class="result"></div>
+
+<script>
+  function checkTest() {
+    let correctAnswers = 0;
+    let incorrectAnswers = 0;
+
+    // ------------------ Вопрос 1 ------------------ //
+    // Правильный ответ: value="1" (HyperText Markup Language)
+    const q1Selected = document.querySelector('input[name="q1"]:checked');
+    if (q1Selected) {
+      correctAnswers += (q1Selected.value === '1') ? 1 : 0;
+      incorrectAnswers += (q1Selected.value === '1') ? 0 : 1;
+    } else {
+      // Если пользователь не выбрал ни один вариант, считаем это за неправильный
+      incorrectAnswers++;
+    }
+
+    // ------------------ Вопрос 2 (checkbox) ------------------ //
+    // Правильные селекторы: .class, #id, header
+    // Следовательно, значения: "class", "id", "header"
+    const q2Selected = document.querySelectorAll('input[name="q2"]:checked');
+    let q2CorrectSet = new Set(["class", "id", "header"]); // все корректные
+    // Проверим, что пользователь выбрал ровно эти 3 варианта и не выбрал лишнего
+    if (q2Selected.length > 0) {
+      let userSet = new Set([...q2Selected].map(el => el.value));
+      // сравним наборы
+      if (compareSets(q2CorrectSet, userSet)) {
+        correctAnswers++;
+      } else {
+        incorrectAnswers++;
+      }
+    } else {
+      // Ничего не выбрано
+      incorrectAnswers++;
+    }
+
+    // ------------------ Вопрос 3 (select) ------------------ //
+    // Правильный ответ: "color" (value="1")
+    const q3Selected = document.querySelector('select[name="q3"]');
+    if (q3Selected.value === '1') {
+      correctAnswers++;
+    } else {
+      incorrectAnswers++;
+    }
+
+    // ------------------ Вопрос 4 (text) ------------------ //
+    // Правильный ответ: h1 (или <h1>), проверим по регистру в упрощённом виде
+    const q4Input = document.querySelector('input[name="q4"]');
+    // Преобразуем к нижнему регистру и удалим пробелы
+    let q4Value = q4Input.value.toLowerCase().trim();
+    // Может быть "h1" или "<h1>" — допустим оба варианта
+    if (q4Value === "h1" || q4Value === "<h1>" ) {
+      correctAnswers++;
+    } else {
+      incorrectAnswers++;
+    }
+
+    // ------------------ Вопрос 5 (textarea) ------------------ //
+    // Оценка открытого ответа. Здесь, по-хорошему, проверять вручную,
+    // но для примера считаем, что если поле не пустое, засчитаем как правильно :)
+    const q5Text = document.querySelector('textarea[name="q5"]').value.trim();
+    if (q5Text.length > 0) {
+      correctAnswers++;
+    } else {
+      incorrectAnswers++;
+    }
+
+    // ------------------ Вопрос 6 (radio) ------------------ //
+    // Правильный ответ: push() (value="1")
+    const q6Selected = document.querySelector('input[name="q6"]:checked');
+    if (q6Selected) {
+      correctAnswers += (q6Selected.value === '1') ? 1 : 0;
+      incorrectAnswers += (q6Selected.value === '1') ? 0 : 1;
+    } else {
+      incorrectAnswers++;
+    }
+
+    // Выводим результат
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `
+      Количество <span style="color:green">правильных</span> ответов: ${correctAnswers}<br>
+      Количество <span style="color:red">неправильных</span> ответов: ${incorrectAnswers}
+    `;
+  }
+
+  // Функция для сравнения наборов (Set) — вернёт true, если наборы равны
+  function compareSets(setA, setB) {
+    if (setA.size !== setB.size) return false;
+    for (let item of setA) {
+      if (!setB.has(item)) return false;
+    }
+    return true;
+  }
+</script>
+
+</body>
+</html>
